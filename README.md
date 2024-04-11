@@ -3,7 +3,7 @@
   
 1, Enable API logging for API Gateway stage  
 2, Increase timeout of presigned fuction to 1m by setting --context functionTimeout="60"  
-3, Increase url timeout to 1 hours by setting --context urlExpiry="3600"  
+3, Increase url timeout to 1 hour by setting --context urlExpiry="3600"  
 ##
     cdk deploy --context env="randnumber4"  --context urlExpiry="3600" --context functionTimeout="60"  
 4, Enable authorization for API Gateway using lambda authorizer.js  
