@@ -9,7 +9,7 @@
 4, Enable authorization for API Gateway using lambda authorizer.js  
 5, Custom response for 403, 401 authorizer fail setting in API Gateway response setting  
 6, Read json format and save json to Dynamodb (initialize.js)  
-7, Cloudfront to load from to S3  
+7, Cloudfront to access S3  
 8, return image path in finalize.js:  
 {  
 "imagePath" : "image/path.jpg"  
