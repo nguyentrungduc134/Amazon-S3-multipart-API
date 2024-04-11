@@ -1,0 +1,377 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "MultipartS3UploadStack2.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MultipartS3UploadStack2.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MultipartS3UploadStack2": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MultipartS3UploadStack2.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3a586b312e6196d221dd46df2d43cbf18481dc83a524697756f967dbc6f98217.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MultipartS3UploadStack2.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MultipartS3UploadStack2.assets"
+      ],
+      "metadata": {
+        "/MultipartS3UploadStack2/Files/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Files8E6940B8"
+          }
+        ],
+        "/MultipartS3UploadStack2/document-upload-bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "documentuploadbucket1B3E1E18"
+          }
+        ],
+        "/MultipartS3UploadStack2/document-upload-bucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "documentuploadbucketPolicy6ED1FE5A"
+          }
+        ],
+        "/MultipartS3UploadStack2/OAI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OAIE1EFC67F"
+          }
+        ],
+        "/MultipartS3UploadStack2/BackendCF/CFDistribution": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BackendCFCFDistribution7FE8ADFE"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiFF1148FC"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiCloudWatchRole6B12FF78"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiAccount291DE67A"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiDeployment43AC08644ee730b3328efd470ad2e932c8ee0d94"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiDeploymentStageprod84C743B6"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiEndpointA06870A1"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiOPTIONS62DCD1F2"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiinitialize54DA452D"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiinitializeOPTIONSC5155B2E"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..initialize": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiinitializePOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTinitialize26DA3D3F"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..initialize": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiinitializePOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTinitialize63733522"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiinitializePOST2EB016F3"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedUrls355A3C7D"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedUrlsOPTIONS8B6E88FA"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedUrls": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedUrlsPOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedUrlsD4231437"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedUrls": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedUrlsPOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedUrls081315F0"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedUrlsPOST99EB054A"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedTAUrls47F7BD53"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedTAUrlsOPTIONSBBD4D70B"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedTAUrls": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedTAUrlsPOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedTAUrlsF029A05B"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedTAUrls": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedTAUrlsPOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedTAUrlsC3CF8179"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapigetPreSignedTAUrlsPOSTC62D5EEA"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapifinalize1FD6DE16"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapifinalizeOPTIONS87B549F7"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..finalize": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapifinalizePOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTfinalize334AF8A9"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..finalize": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapifinalizePOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTfinalize3F1AF557"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapifinalizePOST2B336F95"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/authorized_fail/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiauthorizedfail6C01174A"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/unauthorized/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiunauthorized508F75BB"
+          }
+        ],
+        "/MultipartS3UploadStack2/multi-part-upload-api/usage-plan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "multipartuploadapiusageplan724587CD"
+          }
+        ],
+        "/MultipartS3UploadStack2/auth-lambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "authlambdaServiceRole39F49DB1"
+          }
+        ],
+        "/MultipartS3UploadStack2/auth-lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "authlambda5AE8A89F"
+          }
+        ],
+        "/MultipartS3UploadStack2/auth-lambda/MultipartS3UploadStack2initializetokenauthorizer9CAC8E47:Permissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "authlambdaMultipartS3UploadStack2initializetokenauthorizer9CAC8E47PermissionsE64593B6"
+          }
+        ],
+        "/MultipartS3UploadStack2/initializeHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "initializeHandlerServiceRole1012F68E"
+          }
+        ],
+        "/MultipartS3UploadStack2/initializeHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "initializeHandlerServiceRoleDefaultPolicy4F1E9044"
+          }
+        ],
+        "/MultipartS3UploadStack2/initializeHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "initializeHandlerEED63CA7"
+          }
+        ],
+        "/MultipartS3UploadStack2/getPreSignedUrlsHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getPreSignedUrlsHandlerServiceRoleEA6B60FF"
+          }
+        ],
+        "/MultipartS3UploadStack2/getPreSignedUrlsHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getPreSignedUrlsHandlerServiceRoleDefaultPolicyED58BD00"
+          }
+        ],
+        "/MultipartS3UploadStack2/getPreSignedUrlsHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getPreSignedUrlsHandlerE482A024"
+          }
+        ],
+        "/MultipartS3UploadStack2/getPreSignedTAUrlsHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getPreSignedTAUrlsHandlerServiceRoleC94A90B6"
+          }
+        ],
+        "/MultipartS3UploadStack2/getPreSignedTAUrlsHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getPreSignedTAUrlsHandlerServiceRoleDefaultPolicy41F8BB0A"
+          }
+        ],
+        "/MultipartS3UploadStack2/getPreSignedTAUrlsHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getPreSignedTAUrlsHandler7D8E0C67"
+          }
+        ],
+        "/MultipartS3UploadStack2/finalizeHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "finalizeHandlerServiceRole0DEB346D"
+          }
+        ],
+        "/MultipartS3UploadStack2/finalizeHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "finalizeHandlerServiceRoleDefaultPolicy2A438EB3"
+          }
+        ],
+        "/MultipartS3UploadStack2/finalizeHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "finalizeHandlerEEE067CE"
+          }
+        ],
+        "/MultipartS3UploadStack2/initialize-token-authorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "initializetokenauthorizerC2424045"
+          }
+        ],
+        "/MultipartS3UploadStack2/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MultipartS3UploadStack2/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MultipartS3UploadStack2/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MultipartS3UploadStack2/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MultipartS3UploadStack2"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

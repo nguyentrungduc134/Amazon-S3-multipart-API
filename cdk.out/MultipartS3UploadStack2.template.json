@@ -1,0 +1,2305 @@
+{
+ "Resources": {
+  "Files8E6940B8": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "pk",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "pk",
+      "KeyType": "HASH"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/Files/Resource"
+   }
+  },
+  "documentuploadbucket1B3E1E18": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "AccelerateConfiguration": {
+     "AccelerationStatus": "Enabled"
+    },
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": "document-client-upload-randnumber4",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "PUT",
+        "POST"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ],
+       "ExposedHeaders": [
+        "ETag"
+       ]
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 1
+       },
+       "ExpirationInDays": 10,
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": false,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/document-upload-bucket/Resource"
+   }
+  },
+  "documentuploadbucketPolicy6ED1FE5A": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "documentuploadbucket1B3E1E18"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "documentuploadbucket1B3E1E18",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "documentuploadbucket1B3E1E18",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "OAIE1EFC67F",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "documentuploadbucket1B3E1E18",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "documentuploadbucket1B3E1E18",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "OAIE1EFC67F",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "documentuploadbucket1B3E1E18",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/document-upload-bucket/Policy/Resource"
+   }
+  },
+  "OAIE1EFC67F": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Allows CloudFront to reach the bucket"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/OAI/Resource"
+   }
+  },
+  "BackendCFCFDistribution7FE8ADFE": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "CacheBehaviors": [
+      {
+       "AllowedMethods": [
+        "GET",
+        "HEAD"
+       ],
+       "CachedMethods": [
+        "GET",
+        "HEAD"
+       ],
+       "Compress": true,
+       "ForwardedValues": {
+        "Cookies": {
+         "Forward": "none"
+        },
+        "QueryString": false
+       },
+       "PathPattern": "/*",
+       "TargetOriginId": "origin1",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "AllowedMethods": [
+       "GET",
+       "HEAD"
+      ],
+      "CachedMethods": [
+       "GET",
+       "HEAD"
+      ],
+      "Compress": true,
+      "ForwardedValues": {
+       "Cookies": {
+        "Forward": "none"
+       },
+       "QueryString": false
+      },
+      "TargetOriginId": "origin1",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "ConnectionAttempts": 3,
+       "ConnectionTimeout": 10,
+       "DomainName": {
+        "Fn::GetAtt": [
+         "documentuploadbucket1B3E1E18",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "origin1",
+       "S3OriginConfig": {
+        "OriginAccessIdentity": {
+         "Fn::Join": [
+          "",
+          [
+           "origin-access-identity/cloudfront/",
+           {
+            "Ref": "OAIE1EFC67F"
+           }
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "PriceClass": "PriceClass_100",
+     "ViewerCertificate": {
+      "CloudFrontDefaultCertificate": true
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/BackendCF/CFDistribution"
+   }
+  },
+  "multipartuploadapiFF1148FC": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "API for multipart s3 upload",
+    "Name": "multi-part-upload-api",
+    "Policy": {
+     "Statement": [
+      {
+       "Action": "execute-api:Invoke",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": "execute-api:/*/*/*"
+      },
+      {
+       "Action": "execute-api:Invoke",
+       "Condition": {
+        "NotIpAddress": {
+         "aws:SourceIp": []
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": "execute-api:/*/*/*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Resource"
+   }
+  },
+  "multipartuploadapiCloudWatchRole6B12FF78": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/CloudWatchRole/Resource"
+   }
+  },
+  "multipartuploadapiAccount291DE67A": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "multipartuploadapiCloudWatchRole6B12FF78",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "multipartuploadapiFF1148FC"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Account"
+   }
+  },
+  "multipartuploadapiDeployment43AC08644ee730b3328efd470ad2e932c8ee0d94": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "API for multipart s3 upload",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "DependsOn": [
+    "multipartuploadapiauthorizedfail6C01174A",
+    "multipartuploadapifinalizeOPTIONS87B549F7",
+    "multipartuploadapifinalizePOST2B336F95",
+    "multipartuploadapifinalize1FD6DE16",
+    "multipartuploadapigetPreSignedTAUrlsOPTIONSBBD4D70B",
+    "multipartuploadapigetPreSignedTAUrlsPOSTC62D5EEA",
+    "multipartuploadapigetPreSignedTAUrls47F7BD53",
+    "multipartuploadapigetPreSignedUrlsOPTIONS8B6E88FA",
+    "multipartuploadapigetPreSignedUrlsPOST99EB054A",
+    "multipartuploadapigetPreSignedUrls355A3C7D",
+    "multipartuploadapiinitializeOPTIONSC5155B2E",
+    "multipartuploadapiinitializePOST2EB016F3",
+    "multipartuploadapiinitialize54DA452D",
+    "multipartuploadapiOPTIONS62DCD1F2",
+    "multipartuploadapiunauthorized508F75BB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Deployment/Resource"
+   }
+  },
+  "multipartuploadapiDeploymentStageprod84C743B6": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "multipartuploadapiDeployment43AC08644ee730b3328efd470ad2e932c8ee0d94"
+    },
+    "MethodSettings": [
+     {
+      "DataTraceEnabled": false,
+      "HttpMethod": "*",
+      "LoggingLevel": "INFO",
+      "MetricsEnabled": true,
+      "ResourcePath": "/*"
+     }
+    ],
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "multipartuploadapiAccount291DE67A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/DeploymentStage.prod/Resource"
+   }
+  },
+  "multipartuploadapiOPTIONS62DCD1F2": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "multipartuploadapiFF1148FC",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/OPTIONS/Resource"
+   }
+  },
+  "multipartuploadapiinitialize54DA452D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "multipartuploadapiFF1148FC",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "initialize",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/Resource"
+   }
+  },
+  "multipartuploadapiinitializeOPTIONSC5155B2E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "multipartuploadapiinitialize54DA452D"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/OPTIONS/Resource"
+   }
+  },
+  "multipartuploadapiinitializePOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTinitialize26DA3D3F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "initializeHandlerEED63CA7",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/",
+       {
+        "Ref": "multipartuploadapiDeploymentStageprod84C743B6"
+       },
+       "/POST/initialize"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..initialize"
+   }
+  },
+  "multipartuploadapiinitializePOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTinitialize63733522": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "initializeHandlerEED63CA7",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/test-invoke-stage/POST/initialize"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..initialize"
+   }
+  },
+  "multipartuploadapiinitializePOST2EB016F3": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "initializetokenauthorizerC2424045"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "initializeHandlerEED63CA7",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "multipartuploadapiinitialize54DA452D"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/initialize/POST/Resource"
+   }
+  },
+  "multipartuploadapigetPreSignedUrls355A3C7D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "multipartuploadapiFF1148FC",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "getPreSignedUrls",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/Resource"
+   }
+  },
+  "multipartuploadapigetPreSignedUrlsOPTIONS8B6E88FA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "multipartuploadapigetPreSignedUrls355A3C7D"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/OPTIONS/Resource"
+   }
+  },
+  "multipartuploadapigetPreSignedUrlsPOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedUrlsD4231437": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "getPreSignedUrlsHandlerE482A024",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/",
+       {
+        "Ref": "multipartuploadapiDeploymentStageprod84C743B6"
+       },
+       "/POST/getPreSignedUrls"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedUrls"
+   }
+  },
+  "multipartuploadapigetPreSignedUrlsPOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedUrls081315F0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "getPreSignedUrlsHandlerE482A024",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/test-invoke-stage/POST/getPreSignedUrls"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedUrls"
+   }
+  },
+  "multipartuploadapigetPreSignedUrlsPOST99EB054A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "getPreSignedUrlsHandlerE482A024",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "multipartuploadapigetPreSignedUrls355A3C7D"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedUrls/POST/Resource"
+   }
+  },
+  "multipartuploadapigetPreSignedTAUrls47F7BD53": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "multipartuploadapiFF1148FC",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "getPreSignedTAUrls",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/Resource"
+   }
+  },
+  "multipartuploadapigetPreSignedTAUrlsOPTIONSBBD4D70B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "multipartuploadapigetPreSignedTAUrls47F7BD53"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/OPTIONS/Resource"
+   }
+  },
+  "multipartuploadapigetPreSignedTAUrlsPOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedTAUrlsF029A05B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "getPreSignedTAUrlsHandler7D8E0C67",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/",
+       {
+        "Ref": "multipartuploadapiDeploymentStageprod84C743B6"
+       },
+       "/POST/getPreSignedTAUrls"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedTAUrls"
+   }
+  },
+  "multipartuploadapigetPreSignedTAUrlsPOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTgetPreSignedTAUrlsC3CF8179": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "getPreSignedTAUrlsHandler7D8E0C67",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/test-invoke-stage/POST/getPreSignedTAUrls"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..getPreSignedTAUrls"
+   }
+  },
+  "multipartuploadapigetPreSignedTAUrlsPOSTC62D5EEA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "getPreSignedTAUrlsHandler7D8E0C67",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "multipartuploadapigetPreSignedTAUrls47F7BD53"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/getPreSignedTAUrls/POST/Resource"
+   }
+  },
+  "multipartuploadapifinalize1FD6DE16": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "multipartuploadapiFF1148FC",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "finalize",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/Resource"
+   }
+  },
+  "multipartuploadapifinalizeOPTIONS87B549F7": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "multipartuploadapifinalize1FD6DE16"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/OPTIONS/Resource"
+   }
+  },
+  "multipartuploadapifinalizePOSTApiPermissionMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTfinalize334AF8A9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "finalizeHandlerEEE067CE",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/",
+       {
+        "Ref": "multipartuploadapiDeploymentStageprod84C743B6"
+       },
+       "/POST/finalize"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/POST/ApiPermission.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..finalize"
+   }
+  },
+  "multipartuploadapifinalizePOSTApiPermissionTestMultipartS3UploadStack2multipartuploadapi0DDE115CPOSTfinalize3F1AF557": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "finalizeHandlerEEE067CE",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/test-invoke-stage/POST/finalize"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/POST/ApiPermission.Test.MultipartS3UploadStack2multipartuploadapi0DDE115C.POST..finalize"
+   }
+  },
+  "multipartuploadapifinalizePOST2B336F95": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "finalizeHandlerEEE067CE",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "multipartuploadapifinalize1FD6DE16"
+    },
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Default/finalize/POST/Resource"
+   }
+  },
+  "multipartuploadapiauthorizedfail6C01174A": {
+   "Type": "AWS::ApiGateway::GatewayResponse",
+   "Properties": {
+    "ResponseTemplates": {
+     "application/json": "{ \"message\": $context.error.messageString, \"statusCode\": \"403\", \"type\": \"$context.error.responseType\" }"
+    },
+    "ResponseType": "AUTHORIZER_FAILURE",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    },
+    "StatusCode": "403"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/authorized_fail/Resource"
+   }
+  },
+  "multipartuploadapiunauthorized508F75BB": {
+   "Type": "AWS::ApiGateway::GatewayResponse",
+   "Properties": {
+    "ResponseTemplates": {
+     "application/json": "{ \"message\": $context.error.messageString, \"statusCode\": \"401\", \"type\": \"$context.error.responseType\" }"
+    },
+    "ResponseType": "UNAUTHORIZED",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    },
+    "StatusCode": "401"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/unauthorized/Resource"
+   }
+  },
+  "multipartuploadapiusageplan724587CD": {
+   "Type": "AWS::ApiGateway::UsagePlan",
+   "Properties": {
+    "ApiStages": [
+     {
+      "ApiId": {
+       "Ref": "multipartuploadapiFF1148FC"
+      },
+      "Stage": {
+       "Ref": "multipartuploadapiDeploymentStageprod84C743B6"
+      },
+      "Throttle": {}
+     }
+    ],
+    "Description": "usage plan for consumerA",
+    "Throttle": {
+     "BurstLimit": 200,
+     "RateLimit": 100
+    },
+    "UsagePlanName": "consumerA-multi-part-upload-plan"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/usage-plan/Resource"
+   }
+  },
+  "authlambdaServiceRole39F49DB1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/auth-lambda/ServiceRole/Resource"
+   }
+  },
+  "authlambda5AE8A89F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "authlambdaServiceRole39F49DB1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "authlambdaServiceRole39F49DB1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/auth-lambda/Resource",
+    "aws:asset:path": "asset.4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "authlambdaMultipartS3UploadStack2initializetokenauthorizer9CAC8E47PermissionsE64593B6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "authlambda5AE8A89F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "multipartuploadapiFF1148FC"
+       },
+       "/authorizers/",
+       {
+        "Ref": "initializetokenauthorizerC2424045"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/auth-lambda/MultipartS3UploadStack2initializetokenauthorizer9CAC8E47:Permissions"
+   }
+  },
+  "initializeHandlerServiceRole1012F68E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/initializeHandler/ServiceRole/Resource"
+   }
+  },
+  "initializeHandlerServiceRoleDefaultPolicy4F1E9044": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Files8E6940B8",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "documentuploadbucket1B3E1E18",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "documentuploadbucket1B3E1E18",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "initializeHandlerServiceRoleDefaultPolicy4F1E9044",
+    "Roles": [
+     {
+      "Ref": "initializeHandlerServiceRole1012F68E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/initializeHandler/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "initializeHandlerEED63CA7": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Files8E6940B8"
+      },
+      "BUCKET_NAME": {
+       "Ref": "documentuploadbucket1B3E1E18"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "multipart-upload-initialize-randnumber4",
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "initializeHandlerServiceRole1012F68E",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "initializeHandlerServiceRoleDefaultPolicy4F1E9044",
+    "initializeHandlerServiceRole1012F68E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/initializeHandler/Resource",
+    "aws:asset:path": "asset.a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "getPreSignedUrlsHandlerServiceRoleEA6B60FF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedUrlsHandler/ServiceRole/Resource"
+   }
+  },
+  "getPreSignedUrlsHandlerServiceRoleDefaultPolicyED58BD00": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "documentuploadbucket1B3E1E18",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "documentuploadbucket1B3E1E18",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "getPreSignedUrlsHandlerServiceRoleDefaultPolicyED58BD00",
+    "Roles": [
+     {
+      "Ref": "getPreSignedUrlsHandlerServiceRoleEA6B60FF"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedUrlsHandler/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "getPreSignedUrlsHandlerE482A024": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET_NAME": {
+       "Ref": "documentuploadbucket1B3E1E18"
+      },
+      "URL_EXPIRES": "3600",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "multipart-upload-getPreSignedUrls-randnumber4",
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "getPreSignedUrlsHandlerServiceRoleEA6B60FF",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "getPreSignedUrlsHandlerServiceRoleDefaultPolicyED58BD00",
+    "getPreSignedUrlsHandlerServiceRoleEA6B60FF"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedUrlsHandler/Resource",
+    "aws:asset:path": "asset.56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "getPreSignedTAUrlsHandlerServiceRoleC94A90B6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedTAUrlsHandler/ServiceRole/Resource"
+   }
+  },
+  "getPreSignedTAUrlsHandlerServiceRoleDefaultPolicy41F8BB0A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "documentuploadbucket1B3E1E18",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "documentuploadbucket1B3E1E18",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "getPreSignedTAUrlsHandlerServiceRoleDefaultPolicy41F8BB0A",
+    "Roles": [
+     {
+      "Ref": "getPreSignedTAUrlsHandlerServiceRoleC94A90B6"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedTAUrlsHandler/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "getPreSignedTAUrlsHandler7D8E0C67": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET_NAME": {
+       "Ref": "documentuploadbucket1B3E1E18"
+      },
+      "URL_EXPIRES": "3600",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "multipart-upload-getPreSignedTAUrls-randnumber4",
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "getPreSignedTAUrlsHandlerServiceRoleC94A90B6",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "getPreSignedTAUrlsHandlerServiceRoleDefaultPolicy41F8BB0A",
+    "getPreSignedTAUrlsHandlerServiceRoleC94A90B6"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedTAUrlsHandler/Resource",
+    "aws:asset:path": "asset.fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "finalizeHandlerServiceRole0DEB346D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/finalizeHandler/ServiceRole/Resource"
+   }
+  },
+  "finalizeHandlerServiceRoleDefaultPolicy2A438EB3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "documentuploadbucket1B3E1E18",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "documentuploadbucket1B3E1E18",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "finalizeHandlerServiceRoleDefaultPolicy2A438EB3",
+    "Roles": [
+     {
+      "Ref": "finalizeHandlerServiceRole0DEB346D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/finalizeHandler/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "finalizeHandlerEEE067CE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET_NAME": {
+       "Ref": "documentuploadbucket1B3E1E18"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "multipart-upload-finalize-randnumber4",
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "finalizeHandlerServiceRole0DEB346D",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "finalizeHandlerServiceRoleDefaultPolicy2A438EB3",
+    "finalizeHandlerServiceRole0DEB346D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/finalizeHandler/Resource",
+    "aws:asset:path": "asset.3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "initializetokenauthorizerC2424045": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "AuthorizerResultTtlInSeconds": 300,
+    "AuthorizerUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "authlambda5AE8A89F",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ":apigateway:",
+       {
+        "Fn::Select": [
+         3,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "authlambda5AE8A89F",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ":lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "authlambda5AE8A89F",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    },
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "MultipartS3UploadStack2initializetokenauthorizer9CAC8E47",
+    "RestApiId": {
+     "Ref": "multipartuploadapiFF1148FC"
+    },
+    "Type": "TOKEN"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/initialize-token-authorizer/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21RXU/CMBT9LbyXqpAYXwcE44NCEOMj6doyL9vapbeV4LL/bj8GA2PS5J5zP3vundCH6SO9H7EjjrkoxxXktH23jJfEu3atOClWa+GdW5ZXksz3KoKO4JS2M8dLaYOzR8msdQX8NLh7nsiMoa/mlXZib7SytF0ZKEBlnEvEFyGVBRuL5yFnGXL+z7iEP2W+ALQGcmdBq1B7zTvCGiiYlUd2ou1Gos0aCElX0PfWTlmykE2lT7UfEbsMzO+kiPIT8KXaGS6DGvIq7ZcWIdijc7QfkvBz+oHnjVYYY39dH+h7rysWJQxkq0upMudbG/iRJv73wjoCrPaydLpOtMMBEupIxepcMNoGlzQ1IPaLWjrF05JSyk5pIQ9I36I5R/21dwxRWqRZMN2NxJWzjbMkRsJ6QBU3ysMttRKQ5oQB9IB33w9P1L/J6IAAY+O3D7Wkm2R/AU1OHJqYAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "multipartuploadapiEndpointA06870A1": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "multipartuploadapiFF1148FC"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "multipartuploadapiDeploymentStageprod84C743B6"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
