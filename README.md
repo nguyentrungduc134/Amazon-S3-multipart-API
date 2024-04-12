@@ -6,7 +6,7 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 - **Initiate**: You initiate a multipart upload by providing the necessary details such as the bucket name and object key.    
 - **Upload Parts**: Upload individual parts of the object, specifying the part number and data for each part. Parts must be between 5 MB and 5 GB, except for the last part which can be smaller.    
 - **Complete**: After uploading all parts, you complete the multipart upload. Amazon S3 concatenates the parts into a single object and makes it available in the bucket.    
-- **Abort**: If needed, you can abort a multipart upload at any time before completing it, freeing up any storage resources associated with the incomplete upload.    
+  
 ## New Improvements  
   
 1, Enable API logging for API Gateway stage  
