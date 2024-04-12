@@ -8,10 +8,10 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 - **Complete**: After uploading all parts, you complete the multipart upload. Amazon S3 concatenates the parts into a single object and makes it available in the bucket.    
 
 ## Deploy the application    
-Prerequisites    
+### Prerequisites    
 Install and configure [AWS CLI ](https://aws.amazon.com/cli/)     
 Install and bootstrap [AWS CDK](https://aws.amazon.com/cdk/)      
-Deploy    
+### Deploy    
 Clone this repository to your local computer.    
 Ruun "npm install" to install all dependencies. Use "npm audit" to check for known vulnerabilites on the dependent packages.    
 Use CDK to deploy the backend to AWS.     
