@@ -6,7 +6,22 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 - **Initiate**: You initiate a multipart upload by providing the necessary details such as the bucket name and object key.    
 - **Upload Parts**: Upload individual parts of the object, specifying the part number and data for each part. Parts must be between 5 MB and 5 GB, except for the last part which can be smaller.    
 - **Complete**: After uploading all parts, you complete the multipart upload. Amazon S3 concatenates the parts into a single object and makes it available in the bucket.    
-  
+
+Deploy the application    
+Prerequisite    
+Install and configure AWS CLI    
+Install and bootstrap AWS CDK    
+Deploy    
+Clone this repository to your local computer.    
+Ruun "npm install" to install all dependencies. Use "npm audit" to check for known vulnerabilites on the dependent packages.    
+Use CDK to deploy the backend to AWS.     
+cdk deploy --context env="randnumber4"  --context urlExpiry="3600" --context functionTimeout="60"      
+An additional context variable called "urlExpiry" can be used to set specific expiration time on the S3 presigned URL. The default value is set at 300 seconds (5 min). A new S3 bucket with the name "document-upload-bucket-randnumber" is created for storing the uploaded files, and the whitelistip value is used to allow API Gateway access from this IP address only.    
+    
+An additional context variable called "functionTimeout" can be used to set specific timeout for the AWS Lambda function responsible for generating presigned URLs. With a higher number of parts, timeouts may occur, but it can be extended as needed.    
+    
+Make note of the API Gateway endpoint URL.    
+    
 ## New Improvements  
   
 1, Enable API logging for API Gateway stage  
