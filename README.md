@@ -17,7 +17,7 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 - Use CDK to deploy the backend to AWS.     
 ##
         cdk deploy --context env="randnumber4"  --context urlExpiry="3600" --context functionTimeout="60"      
-An additional context variable called "urlExpiry" can be used to set specific expiration time on the S3 presigned URL. The default value is set at 300 seconds (5 min). A new S3 bucket with the name "document-upload-bucket-randnumber" is created for storing the uploaded files, and the whitelistip value is used to allow API Gateway access from this IP address only.    
+An additional context variable called "urlExpiry" can be used to set specific expiration time on the S3 presigned URL. The default value is set at 300 seconds (5 min). A new S3 bucket with the name "document-upload-bucket-randnumber" is created for storing the uploaded files.    
     
 An additional context variable called "functionTimeout" can be used to set specific timeout for the AWS Lambda function responsible for generating presigned URLs. With a higher number of parts, timeouts may occur, but it can be extended as needed.    
     
