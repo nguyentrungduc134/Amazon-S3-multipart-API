@@ -7,9 +7,9 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 - **Upload Parts**: Upload individual parts of the object, specifying the part number and data for each part. Parts must be between 5 MB and 5 GB, except for the last part which can be smaller.    
 - **Complete**: After uploading all parts, you complete the multipart upload. Amazon S3 concatenates the parts into a single object and makes it available in the bucket.    
 
-Deploy the application    
-Prerequisite    
-Install and configure AWS CLI    
+## Deploy the application    
+Prerequisites    
+Install and configure A[WS CLI ](https://aws.amazon.com/cli/)     
 Install and bootstrap AWS CDK    
 Deploy    
 Clone this repository to your local computer.    
