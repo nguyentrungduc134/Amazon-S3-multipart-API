@@ -9,13 +9,14 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 
 ## Deploy the application    
 ### Prerequisites    
-Install and configure [AWS CLI ](https://aws.amazon.com/cli/)     
-Install and bootstrap [AWS CDK](https://aws.amazon.com/cdk/)      
+- Install and configure [AWS CLI ](https://aws.amazon.com/cli/)     
+- Install and bootstrap [AWS CDK](https://aws.amazon.com/cdk/)      
 ### Deploy    
-Clone this repository to your local computer.    
-Ruun "npm install" to install all dependencies. Use "npm audit" to check for known vulnerabilites on the dependent packages.    
-Use CDK to deploy the backend to AWS.     
-cdk deploy --context env="randnumber4"  --context urlExpiry="3600" --context functionTimeout="60"      
+- Clone this repository to your local computer.    
+- Run "npm install" to install all dependencies. Use "npm audit" to check for known vulnerabilites on the dependent packages.    
+- Use CDK to deploy the backend to AWS.     
+##
+        cdk deploy --context env="randnumber4"  --context urlExpiry="3600" --context functionTimeout="60"      
 An additional context variable called "urlExpiry" can be used to set specific expiration time on the S3 presigned URL. The default value is set at 300 seconds (5 min). A new S3 bucket with the name "document-upload-bucket-randnumber" is created for storing the uploaded files, and the whitelistip value is used to allow API Gateway access from this IP address only.    
     
 An additional context variable called "functionTimeout" can be used to set specific timeout for the AWS Lambda function responsible for generating presigned URLs. With a higher number of parts, timeouts may occur, but it can be extended as needed.    
