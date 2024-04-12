@@ -9,8 +9,8 @@ Amazon Simple Storage Service (Amazon S3) Multipart Upload is a feature that all
 
 ## Deploy the application    
 Prerequisites    
-Install and configure A[WS CLI ](https://aws.amazon.com/cli/)     
-Install and bootstrap AWS CDK    
+Install and configure [AWS CLI ](https://aws.amazon.com/cli/)     
+Install and bootstrap [AWS CDK](https://aws.amazon.com/cdk/)      
 Deploy    
 Clone this repository to your local computer.    
 Ruun "npm install" to install all dependencies. Use "npm audit" to check for known vulnerabilites on the dependent packages.    
