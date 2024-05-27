@@ -38,7 +38,7 @@
       }
      ]
     },
-    "BucketName": "document-client-upload-randnumber4",
+    "BucketName": "document-client-upload-test",
     "CorsConfiguration": {
      "CorsRules": [
       {
@@ -384,7 +384,7 @@
     "aws:cdk:path": "MultipartS3UploadStack2/multi-part-upload-api/Account"
    }
   },
-  "multipartuploadapiDeployment43AC08644ee730b3328efd470ad2e932c8ee0d94": {
+  "multipartuploadapiDeployment43AC0864e299f06cc07078ea9d6b3a21ba55e900": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "API for multipart s3 upload",
@@ -417,7 +417,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "multipartuploadapiDeployment43AC08644ee730b3328efd470ad2e932c8ee0d94"
+     "Ref": "multipartuploadapiDeployment43AC0864e299f06cc07078ea9d6b3a21ba55e900"
     },
     "MethodSettings": [
      {
@@ -553,7 +553,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "initializeHandlerEED63CA7",
+      "pluginidEFCB27CC",
       "Arn"
      ]
     },
@@ -597,7 +597,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "initializeHandlerEED63CA7",
+      "pluginidEFCB27CC",
       "Arn"
      ]
     },
@@ -657,7 +657,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "initializeHandlerEED63CA7",
+          "pluginidEFCB27CC",
           "Arn"
          ]
         },
@@ -1339,7 +1339,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401.zip"
+     "S3Key": "96921818f450b9271a949a5a2025a34680446276ee3140e83a0f2e13690c27b5.zip"
     },
     "Environment": {
      "Variables": {
@@ -1360,7 +1360,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "MultipartS3UploadStack2/auth-lambda/Resource",
-    "aws:asset:path": "asset.4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401",
+    "aws:asset:path": "/home/rama/cloudconsultantsch-sf-plugins",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1449,34 +1449,6 @@
      "Statement": [
       {
        "Action": [
-        "dynamodb:BatchGetItem",
-        "dynamodb:BatchWriteItem",
-        "dynamodb:ConditionCheckItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:DescribeTable",
-        "dynamodb:GetItem",
-        "dynamodb:GetRecords",
-        "dynamodb:GetShardIterator",
-        "dynamodb:PutItem",
-        "dynamodb:Query",
-        "dynamodb:Scan",
-        "dynamodb:UpdateItem"
-       ],
-       "Effect": "Allow",
-       "Resource": [
-        {
-         "Fn::GetAtt": [
-          "Files8E6940B8",
-          "Arn"
-         ]
-        },
-        {
-         "Ref": "AWS::NoValue"
-        }
-       ]
-      },
-      {
-       "Action": [
         "s3:Abort*",
         "s3:DeleteObject*",
         "s3:GetBucket*",
@@ -1533,7 +1505,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2.zip"
+     "S3Key": "59e4ac594c19dc6787b3e30c2d3cc2a0f7f7856f493e0fe9d6baad21606cc092.zip"
     },
     "Environment": {
      "Variables": {
@@ -1546,7 +1518,7 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "multipart-upload-initialize-randnumber4",
+    "FunctionName": "multipart-upload-initialize-test",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -1562,7 +1534,158 @@
    ],
    "Metadata": {
     "aws:cdk:path": "MultipartS3UploadStack2/initializeHandler/Resource",
-    "aws:asset:path": "asset.a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2",
+    "aws:asset:path": "/home/rama/cloudconsultantsch-sf-plugins",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "pluginidServiceRole1EE2BDDA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/pluginid/ServiceRole/Resource"
+   }
+  },
+  "pluginidServiceRoleDefaultPolicy099876B8": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Files8E6940B8",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "initializeHandlerEED63CA7",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "initializeHandlerEED63CA7",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "pluginidServiceRoleDefaultPolicy099876B8",
+    "Roles": [
+     {
+      "Ref": "pluginidServiceRole1EE2BDDA"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/pluginid/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "pluginidEFCB27CC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "da9788347053ef96639192640427c889f2bc687bb1dd6c9aaa06d16ef2a9dd3b.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "Files8E6940B8"
+      },
+      "BUCKET_NAME": {
+       "Ref": "documentuploadbucket1B3E1E18"
+      },
+      "INIT_LAMBDA": {
+       "Ref": "initializeHandlerEED63CA7"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "FunctionName": "multipart-upload-plugin-test",
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "pluginidServiceRole1EE2BDDA",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "pluginidServiceRoleDefaultPolicy099876B8",
+    "pluginidServiceRole1EE2BDDA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MultipartS3UploadStack2/pluginid/Resource",
+    "aws:asset:path": "/home/rama/cloudconsultantsch-sf-plugins",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1664,18 +1787,18 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51.zip"
+     "S3Key": "c81a4b5492e93db77e19bce95d90c6a20d8631b0bc8b9ba7a464dd517a9b79bd.zip"
     },
     "Environment": {
      "Variables": {
       "BUCKET_NAME": {
        "Ref": "documentuploadbucket1B3E1E18"
       },
-      "URL_EXPIRES": "3600",
+      "URL_EXPIRES": "300",
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "multipart-upload-getPreSignedUrls-randnumber4",
+    "FunctionName": "multipart-upload-getPreSignedUrls-test",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -1684,7 +1807,7 @@
      ]
     },
     "Runtime": "nodejs18.x",
-    "Timeout": 60
+    "Timeout": 3
    },
    "DependsOn": [
     "getPreSignedUrlsHandlerServiceRoleDefaultPolicyED58BD00",
@@ -1692,7 +1815,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedUrlsHandler/Resource",
-    "aws:asset:path": "asset.56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51",
+    "aws:asset:path": "/home/rama/cloudconsultantsch-sf-plugins",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1794,18 +1917,18 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a.zip"
+     "S3Key": "f8a6b478d75f240525ca787a604782aa629fff4cc6e1702d0c18dc0902e942be.zip"
     },
     "Environment": {
      "Variables": {
       "BUCKET_NAME": {
        "Ref": "documentuploadbucket1B3E1E18"
       },
-      "URL_EXPIRES": "3600",
+      "URL_EXPIRES": "300",
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "multipart-upload-getPreSignedTAUrls-randnumber4",
+    "FunctionName": "multipart-upload-getPreSignedTAUrls-test",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -1814,7 +1937,7 @@
      ]
     },
     "Runtime": "nodejs18.x",
-    "Timeout": 60
+    "Timeout": 3
    },
    "DependsOn": [
     "getPreSignedTAUrlsHandlerServiceRoleDefaultPolicy41F8BB0A",
@@ -1822,7 +1945,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "MultipartS3UploadStack2/getPreSignedTAUrlsHandler/Resource",
-    "aws:asset:path": "asset.fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a",
+    "aws:asset:path": "/home/rama/cloudconsultantsch-sf-plugins",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1924,7 +2047,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103.zip"
+     "S3Key": "45611785159d6e84aba473206dee57705691cbbd55a193961300aba5c550b543.zip"
     },
     "Environment": {
      "Variables": {
@@ -1934,7 +2057,7 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "multipart-upload-finalize-randnumber4",
+    "FunctionName": "multipart-upload-finalize-test",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -1950,7 +2073,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "MultipartS3UploadStack2/finalizeHandler/Resource",
-    "aws:asset:path": "asset.3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103",
+    "aws:asset:path": "/home/rama/cloudconsultantsch-sf-plugins",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }

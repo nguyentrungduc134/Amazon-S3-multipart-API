@@ -22,11 +22,13 @@
   },
   "dependencies": {
     "@aws-cdk/aws-iam": "^1.204.0",
+    "@aws-sdk/client-lambda": "^3.554.0",
     "@aws-sdk/client-s3": "^3.367.0",
     "@aws-sdk/lib-dynamodb": "^3.549.0",
     "@aws-sdk/s3-request-presigner": "3.309.0",
     "@aws-solutions-constructs/aws-cloudfront-s3": "^2.54.1",
     "aws-cdk-lib": "^2.136.0",
+    "aws-sdk": "^2.1598.0",
     "constructs": "10.1.305",
     "json": "^11.0.0",
     "lodash": "4.17.21"

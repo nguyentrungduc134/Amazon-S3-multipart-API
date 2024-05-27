@@ -1,72 +1,85 @@
 {
   "version": "36.0.0",
   "files": {
-    "4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401": {
+    "96921818f450b9271a949a5a2025a34680446276ee3140e83a0f2e13690c27b5": {
       "source": {
-        "path": "asset.4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401",
+        "path": "/home/rama/cloudconsultantsch-sf-plugins",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "4e57fe82c48d87823668b5c7a6217be0004b2c579d06429568912fc0ef345401.zip",
+          "objectKey": "96921818f450b9271a949a5a2025a34680446276ee3140e83a0f2e13690c27b5.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2": {
+    "59e4ac594c19dc6787b3e30c2d3cc2a0f7f7856f493e0fe9d6baad21606cc092": {
       "source": {
-        "path": "asset.a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2",
+        "path": "/home/rama/cloudconsultantsch-sf-plugins",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "a95989d325a3e9aa228afaba74b8cf6a9c700b3524d605b7d724e22ac60269b2.zip",
+          "objectKey": "59e4ac594c19dc6787b3e30c2d3cc2a0f7f7856f493e0fe9d6baad21606cc092.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51": {
+    "da9788347053ef96639192640427c889f2bc687bb1dd6c9aaa06d16ef2a9dd3b": {
       "source": {
-        "path": "asset.56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51",
+        "path": "/home/rama/cloudconsultantsch-sf-plugins",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "56b6a33adf069ab12cffa7399e72b463a59f1f8ca7e4c85b3ec0b34e9c8e2a51.zip",
+          "objectKey": "da9788347053ef96639192640427c889f2bc687bb1dd6c9aaa06d16ef2a9dd3b.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a": {
+    "c81a4b5492e93db77e19bce95d90c6a20d8631b0bc8b9ba7a464dd517a9b79bd": {
       "source": {
-        "path": "asset.fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a",
+        "path": "/home/rama/cloudconsultantsch-sf-plugins",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "fdf65e9e62a2cbbda235cc540c323e04f3f54bb58847aeae1aec88a63117553a.zip",
+          "objectKey": "c81a4b5492e93db77e19bce95d90c6a20d8631b0bc8b9ba7a464dd517a9b79bd.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103": {
+    "f8a6b478d75f240525ca787a604782aa629fff4cc6e1702d0c18dc0902e942be": {
       "source": {
-        "path": "asset.3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103",
+        "path": "/home/rama/cloudconsultantsch-sf-plugins",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "3b7a50167feec427744422eae2d5a8cb7ca799cfa10c528c8723313172ecd103.zip",
+          "objectKey": "f8a6b478d75f240525ca787a604782aa629fff4cc6e1702d0c18dc0902e942be.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "3a586b312e6196d221dd46df2d43cbf18481dc83a524697756f967dbc6f98217": {
+    "45611785159d6e84aba473206dee57705691cbbd55a193961300aba5c550b543": {
+      "source": {
+        "path": "/home/rama/cloudconsultantsch-sf-plugins",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "45611785159d6e84aba473206dee57705691cbbd55a193961300aba5c550b543.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "3a824e75ad53f905ceb7cf002a28e616309d7bfe65d3be39a4450acbcbd1797b": {
       "source": {
         "path": "MultipartS3UploadStack2.template.json",
         "packaging": "file"
@@ -74,7 +87,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "3a586b312e6196d221dd46df2d43cbf18481dc83a524697756f967dbc6f98217.json",
+          "objectKey": "3a824e75ad53f905ceb7cf002a28e616309d7bfe65d3be39a4450acbcbd1797b.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

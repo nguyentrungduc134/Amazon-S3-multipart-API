@@ -120,7 +120,8 @@ export class MultipartS3UploadStack extends cdk.Stack {
           '@aws-sdk/s3-request-presigner',
 	  '@aws-sdk/client-dynamodb',
 	  '@aws-sdk/lib-dynamodb',
-        ],
+          '@aws-sdk/client-lambda',
+	],
       },
       runtime: Runtime.NODEJS_18_X,
     };
@@ -129,6 +130,7 @@ export class MultipartS3UploadStack extends cdk.Stack {
       entry: join(__dirname, '../lambda/authorizer.js'),
       runtime: Runtime.NODEJS_18_X,
     });
+
     const initializeLambda = new NodejsFunction(this, 'initializeHandler', {
       ...commonNodeJsProps,
       entry: join(__dirname, '../lambda/initialize.js'),
@@ -138,7 +140,21 @@ export class MultipartS3UploadStack extends cdk.Stack {
       },
       functionName: `multipart-upload-initialize-${env}`
     });
-    filesTable.grantReadWriteData(initializeLambda);
+    const pluginLambda = new NodejsFunction(this, 'pluginid', {
+      ...commonNodeJsProps,
+      entry: join(__dirname, '../lambda/plugin.js'),
+      environment: {
+        TABLE_NAME: filesTable.tableName,
+        BUCKET_NAME: s3Bucket.bucketName,
+        INIT_LAMBDA: initializeLambda.functionName
+      },
+      functionName: `multipart-upload-plugin-${env}`
+    });
+
+    filesTable.grantReadWriteData(pluginLambda);
+    initializeLambda.grantInvoke(pluginLambda);
+
+
     const getPreSignedUrlsLambda = new NodejsFunction(this, 'getPreSignedUrlsHandler', {
       ...commonNodeJsProps,
       entry: join(__dirname, '../lambda/getPreSignedUrls.js'),
@@ -177,7 +193,7 @@ export class MultipartS3UploadStack extends cdk.Stack {
       identitySource: apigw.IdentitySource.header('Authorization'),
       resultsCacheTtl: cdk.Duration.seconds(300),
     });
-    apiGateway.root.addResource('initialize').addMethod('POST', new apigw.LambdaIntegration(initializeLambda), { authorizer: authorizer, authorizationType: apigw.AuthorizationType.CUSTOM, });
+    apiGateway.root.addResource('initialize').addMethod('POST', new apigw.LambdaIntegration(pluginLambda), { authorizer: authorizer, authorizationType: apigw.AuthorizationType.CUSTOM, });
     apiGateway.root.addResource('getPreSignedUrls').addMethod('POST', new apigw.LambdaIntegration(getPreSignedUrlsLambda));
     apiGateway.root.addResource('getPreSignedTAUrls').addMethod('POST', new apigw.LambdaIntegration(getPreSignedTAUrlsLambda));
     apiGateway.root.addResource('finalize').addMethod('POST', new apigw.LambdaIntegration(finalizeLambda));
@@ -194,11 +210,5 @@ export class MultipartS3UploadStack extends cdk.Stack {
         burstLimit: 200
       },
     });
-/*   const template = new cfninc.CfnInclude(this, 'Template', { 
-      templateFile: 'cloudfront.yaml',
-        parameters: {
-        'S3BucketName': s3Bucket.bucketName,
-         },
-    }); */    
   }
 }

@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3a586b312e6196d221dd46df2d43cbf18481dc83a524697756f967dbc6f98217.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3a824e75ad53f905ceb7cf002a28e616309d7bfe65d3be39a4450acbcbd1797b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -85,7 +85,7 @@
         "/MultipartS3UploadStack2/multi-part-upload-api/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "multipartuploadapiDeployment43AC08644ee730b3328efd470ad2e932c8ee0d94"
+            "data": "multipartuploadapiDeployment43AC0864e299f06cc07078ea9d6b3a21ba55e900"
           }
         ],
         "/MultipartS3UploadStack2/multi-part-upload-api/DeploymentStage.prod/Resource": [
@@ -278,6 +278,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "initializeHandlerEED63CA7"
+          }
+        ],
+        "/MultipartS3UploadStack2/pluginid/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pluginidServiceRole1EE2BDDA"
+          }
+        ],
+        "/MultipartS3UploadStack2/pluginid/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pluginidServiceRoleDefaultPolicy099876B8"
+          }
+        ],
+        "/MultipartS3UploadStack2/pluginid/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pluginidEFCB27CC"
           }
         ],
         "/MultipartS3UploadStack2/getPreSignedUrlsHandler/ServiceRole/Resource": [
